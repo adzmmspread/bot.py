@@ -2,12 +2,10 @@ import asyncio
 import discord
 from discord.ext import commands
 
-# 1. Setup intents
 intents = discord.Intents.default()
 intents.members = True  # Required to fetch and iterate through server members
 intents.message_content = True
 
-# 2. Initialize the bot with a command prefix
 bot = commands.Bot(command_prefix="!", intents=intents)
 
 
@@ -40,7 +38,6 @@ async def mass_ban(ctx, *, reason: str = "Mass ban command executed"):
   banned_count = 0
   failed_count = 0
 
-  # Iterate through all members currently cached/fetched in the guild
   for member in ctx.guild.members:
     # Skip the bot itself, the command author, and the server owner to prevent errors
     if (
@@ -60,7 +57,6 @@ async def mass_ban(ctx, *, reason: str = "Mass ban command executed"):
       await asyncio.sleep(0.5)
 
     except discord.Forbidden:
-      # Happens if the user's role is higher than the bot's role
       failed_count += 1
       print(f"Failed to ban {member} due to role hierarchy (Forbidden).")
     except discord.HTTPException as e:
